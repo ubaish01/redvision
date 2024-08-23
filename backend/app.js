@@ -12,7 +12,7 @@ const app = express();
 const authRouter = require("./routes/auth.route");
 const blogRouter = require("./routes/blog.route");
 
-const LOCALHOST = "http://localhost:5173";
+const LOCALHOST = "http://localhost:3000";
 
 // SERVER MIDDLEWARES
 app.use(express.json());
@@ -36,12 +36,10 @@ app.use(
 app.use(express.json({ limit: "1024mb" }));
 app.use(express.urlencoded({ limit: "1024mb" }));
 
-
 // ROUTES MIDDLESWARES
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/blog", blogRouter);
-
+app.use("/api/v1/blogs", blogRouter);
 
 ConnectDatabase();
 module.exports = app;

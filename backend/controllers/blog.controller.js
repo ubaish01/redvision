@@ -1,4 +1,5 @@
 const { errorHandler } = require("../error/error");
+const { generateCourseCode } = require("../helper/helper");
 // const { generateCourseCode } = require("../helper/helperFunctions");
 const { STATUS, USER_ROLE } = require("../utils/constant");
 
@@ -10,6 +11,7 @@ module.exports = {
     const { title, subtitle, content } = req.body;
     const poster = req?.file?.location;
     const user = req.user;
+    console.log(user);
     if (!title || !content || !content || !poster)
       return errorHandler(
         res,
@@ -22,6 +24,7 @@ module.exports = {
       subtitle,
       content,
       poster,
+      code: generateCourseCode(title),
     });
 
     return res.json({
@@ -98,10 +101,38 @@ module.exports = {
       blogs,
     });
   },
+  GetMyBlogs: async (req, res) => {
+    const user = req.user;
+    const limit = 20;
+    let { search, page } = req.query;
+    const regex = new RegExp(search, "i");
+    if (!page) page = 1;
+    const skip = (page - 1) * limit;
+    const filter = { user: user._id };
+
+    const blogs = await Blog.find(filter)
+      .populate({
+        path: "user",
+        select: "-password",
+      })
+      .limit(limit)
+      .skip(skip)
+      .sort({ createdAt: -1 });
+    const found_blogs_count = await Blog.countDocuments(filter);
+    const available_pages = Math.ceil(
+      (await Blog.countDocuments(filter)) / limit
+    );
+
+    return res.json({
+      found_blogs_count,
+      available_pages,
+      blogs,
+    });
+  },
 
   GetBlog: async (req, res) => {
-    const id = req.query.id;
-    const blog = await Blog.findById(id);
+    const code = req.params.code;
+    const blog = await Blog.findOne({ code: code });
 
     return res.json({
       success: true,

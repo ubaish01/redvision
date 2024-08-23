@@ -2,21 +2,23 @@ const { asyncError, errorHandler } = require("../error/error");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const { generateToken, cookieSetter } = require("../helper/service");
+const { generateToken, cookieSetter } = require("../helper/service.js");
 const { STATUS } = require("../utils/constant");
 
 const User = mongoose.model("User");
 
 const AuthContollers = {
   register: asyncError(async (req, res) => {
-    const { email, password, name } = req.body;
+    const { email, password, firstName, lastName } = req.body;
 
-    if (!email || !password || !name)
+    if (!email || !password || !firstName || !lastName)
       return errorHandler(
         res,
         STATUS.OK,
         "Name, email and password is required"
       );
+
+    const name = firstName + " " + lastName;
 
     const userFound = await User.findOne({
       email: email.toLowerCase(),
@@ -77,14 +79,10 @@ const AuthContollers = {
 
   logout: asyncError(async (req, res) => {
     cookieSetter(res, null, false);
-    req.logout(function (err) {
-      if (err) {
-        return next(err);
-      }
-      return res.status(200).json({
-        success: true,
-        message: "Logged out successfully",
-      });
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
     });
   }),
 
