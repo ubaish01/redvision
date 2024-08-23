@@ -25,6 +25,12 @@ const helperFunctions = {
 
     return token;
   },
+  generateS3Filename: (extension) => {
+    const filename = `${extension == ".mp4" ? "video" : "file"}${extension}`;
+    const randomNumber = Math.random().toFixed(10) * 1000000000;
+    const uniquename = `${Date.now()}${randomNumber}${filename}`;
+    return uniquename;
+  },
 };
 
 module.exports = helperFunctions;

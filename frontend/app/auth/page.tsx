@@ -1,5 +1,9 @@
-import { AuthForm } from "@/components/auth-form";
-import { Toaster } from "sonner";
+import dynamic from "next/dynamic";
+
+//@ts-ignore
+const AuthForm = dynamic(() => import("@/components/auth-form"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (

@@ -2,7 +2,7 @@ const multer = require("multer");
 const path = require("path");
 const multerS3 = require("multer-s3");
 const AWS = require("aws-sdk");
-const { generateS3Filename } = require("../../helper/helperFunctions");
+const { generateS3Filename } = require("../../helper/helper");
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
@@ -18,7 +18,6 @@ const upload = multer({
     acl: "public-read",
     key: function (req, file, cb) {
       const extension = path.extname(file.originalname);
-      const filename = path.basename(file.originalname);
       const s3Filename = generateS3Filename(extension);
       cb(null, s3Filename);
     },

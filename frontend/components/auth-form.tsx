@@ -12,7 +12,7 @@ const AUTH_STATE = {
   SIGNUP: 2,
 };
 
-export const AuthForm = () => {
+export default function AuthForm() {
   const [state, setState] = useState(AUTH_STATE.SIGNUP);
   const { isLoading, isLogin, login, signup } = useAuth();
   const router = useRouter();
@@ -223,7 +223,7 @@ export const AuthForm = () => {
       )}
     </>
   );
-};
+}
 
 export const BottomGradient = () => {
   return (

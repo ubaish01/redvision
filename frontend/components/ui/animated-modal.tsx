@@ -17,9 +17,15 @@ interface ModalContextType {
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
-export const ModalProvider = ({ children }: { children: ReactNode }) => {
-  const [open, setOpen] = useState(false);
-
+export const ModalProvider = ({
+  children,
+  open,
+  setOpen,
+}: {
+  children: ReactNode;
+  open: boolean;
+  setOpen: any;
+}) => {
   return (
     <ModalContext.Provider value={{ open, setOpen }}>
       {children}
@@ -35,8 +41,20 @@ export const useModal = () => {
   return context;
 };
 
-export function Modal({ children }: { children: ReactNode }) {
-  return <ModalProvider>{children}</ModalProvider>;
+export function Modal({
+  children,
+  open,
+  setOpen,
+}: {
+  children: ReactNode;
+  open: boolean;
+  setOpen: any;
+}) {
+  return (
+    <ModalProvider open={open} setOpen={setOpen}>
+      {children}
+    </ModalProvider>
+  );
 }
 
 export const ModalTrigger = ({
