@@ -11,6 +11,7 @@ export default function BlogDetails() {
 
   return (
     <div className="my-20">
+      {/* @ts-ignore */}
       <Blog blog={blog} />
     </div>
   );

@@ -12,7 +12,7 @@ const Blogs = ({ title, blogs }: { title: String; blogs: Blog[] }) => {
       </h1>
       <div className="flex flex-wrap gap-6  justify-center ">
         {blogs?.map((blog: Blog, index: number) => (
-          <BlogCard blog={blog} />
+          <BlogCard key={index} blog={blog} />
         ))}
       </div>
     </div>
