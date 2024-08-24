@@ -16,7 +16,7 @@ import useBlog from "@/hooks/useBlogs";
 import { toast } from "sonner";
 import { Blog } from "@/types/types";
 
-export default function BlogModal() {
+export default function BlogModal({ refetch }: { refetch: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const { logout } = useAuth();
   const { CreateBlog } = useBlog();
@@ -50,6 +50,7 @@ export default function BlogModal() {
 
     try {
       await CreateBlog(formData); // Adjust the CreateBlog function to accept FormData
+      await refetch();
       clearInput();
       setIsOpen(false);
     } catch (error: any) {
