@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function Home() {
   const { blogs } = useBlog();
   return (
-    <div className="w-full px-40 my-20">
+    <div className="w-full lg:px-40 md:px-24 sm:px-12 px-4 my-20">
       <HeroSection />
       <Blogs title="Recent blogs" blogs={blogs} />
     </div>
