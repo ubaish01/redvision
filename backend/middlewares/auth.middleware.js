@@ -30,7 +30,6 @@ const authMiddleware = {
       return res.status(STATUS.UNAUTHORIZED).json({
         success: false,
         message: "You are not authenticated",
-        response_info: RESPONSE_INFO.TOKEN_ERROR,
       });
     }
   },
