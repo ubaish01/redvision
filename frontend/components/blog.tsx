@@ -6,7 +6,7 @@ import { TracingBeam } from "./ui/tracking-beam";
 import { Blog as BlogType } from "@/types/types";
 
 export function Blog({ blog }: { blog: BlogType }) {
-  return (
+  return blog?.title ? (
     <TracingBeam className="px-6">
       <div className="max-w-2xl mx-auto antialiased pt-4 relative">
         {dummyContent.map((item, index) => (
@@ -20,7 +20,7 @@ export function Blog({ blog }: { blog: BlogType }) {
             <div className="text-sm  prose prose-sm dark:prose-invert">
               {item?.image && (
                 <img
-                  src={blog?.poster || item.image}
+                  src={blog?.poster}
                   alt="blog thumbnail"
                   height="1000"
                   width="1000"
@@ -33,6 +33,10 @@ export function Blog({ blog }: { blog: BlogType }) {
         ))}
       </div>
     </TracingBeam>
+  ) : (
+    <div className="w-screen h-screen flex items-center justify-center">
+      Loading...
+    </div>
   );
 }
 

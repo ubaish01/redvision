@@ -31,20 +31,21 @@ const useBlog = (code: string = "") => {
   };
 
   const CreateBlog = async (data: FormData) => {
-    const responsePromise = postRequest("/blogs", data);
-    toast.promise(responsePromise, {
-      loading: "posting...",
-      success: async (response) => {
-        if (response.data.success) {
-          setTimeout(() => {
-            router.refresh();
-          }, 100);
-          return response.data.message;
-        } else {
-          throw response.data?.message;
-        }
-      },
-      error: (error) => error,
+    return new Promise((resolve, reject) => {
+      const responsePromise = postRequest("/blogs", data);
+      toast.promise(responsePromise, {
+        loading: "posting...",
+        success: async (response) => {
+          if (response.data.success) {
+            resolve("");
+            return response.data.message;
+          } else {
+            reject("");
+            throw response.data?.message;
+          }
+        },
+        error: (error) => error,
+      });
     });
   };
 
@@ -63,6 +64,10 @@ const useBlog = (code: string = "") => {
     fetchBlogs();
     fetchMyBlogs();
   }, []);
+
+  //   useEffect(() => {
+  //     fetchMyBlogs();
+  //   }, [isLoading]);
 
   useEffect(() => {
     fetchBlog();
